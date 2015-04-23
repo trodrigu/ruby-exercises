@@ -6,8 +6,12 @@ words = poem.split /\s+/
 #Example
 puts "There are #{words.count} words"
 puts "There are #{words.uniq.count} different words"
-puts "The shortest line is #{lines.}"
 
 #Exercises
 puts "The second through sixth words are …"
-puts "The "
+puts "The first line has … words in it"
+
+first_stanza_lines = 'replace this with code'
+first_stanza = 'replace this with code'
+puts "The first stanza has … words in it"
+puts "Here is the poem with its lines randomly rearranged …"
