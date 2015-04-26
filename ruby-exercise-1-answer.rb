@@ -1,6 +1,10 @@
 poem = File.read('the-man-from-snowy-river.txt')
 lines = poem.lines
-words = poem.split /\s+/
+
+#/\W+/ is a "regular expression" - a text-searching pattern.
+# /\s+/ The slashes start and end the pattern. \W means "any non-alphabetic character"
+# and + means "repeated one or more times"
+words = poem.split /\W+/
 
 
 #Example
