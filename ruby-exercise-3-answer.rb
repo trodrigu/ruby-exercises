@@ -41,7 +41,6 @@ end
 puts
 puts "Here are all the rhyming pairs from the ends of the Snowy lines"
 i = 0
-line_pairs =
 while i < snowy_lines.count
   [0, 1, 4, 5].each do |n|
     first_word = last_word snowy_lines[i + n]
