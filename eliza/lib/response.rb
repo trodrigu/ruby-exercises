@@ -1,6 +1,10 @@
 class Response
   @@responses = []
 
+  def self.add_dummies *dummies
+    self.add_response '', dummies
+  end
+
   def self.add_response question, *answers
     @@responses << new(question, answers)
   end

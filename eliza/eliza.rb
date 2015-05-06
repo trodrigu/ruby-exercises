@@ -6,6 +6,5 @@ loop do
   entered = gets.chomp
 
   exit if entered == 'q'
-
   puts Response.get_answer entered
 end

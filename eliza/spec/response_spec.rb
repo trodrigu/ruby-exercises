@@ -16,7 +16,6 @@ RSpec.describe 'Eliza answers' do
     end
 
     it 'returns a dummy response when there is no match' do
-      pending "No dummy responses yet"
       expect(['Tell me more', "That's interesting.", 'Go on']).to include(
           Response.get_answer('blergh'))
     end
