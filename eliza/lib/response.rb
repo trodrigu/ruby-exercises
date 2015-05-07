@@ -1,20 +1,22 @@
 class Response
-  @@responses = []
-
+  @responses = []
+  @@dummies = []
   def self.add_dummies *dummies
-    self.add_response '', dummies
+    dummies.each do |dummy|
+      @@dummies.push dummy
+    end
   end
 
   def self.add_response question, *answers
-    @@responses << new(question, answers)
+    @responses << new(question, answers)
   end
 
   def self.get_answer question
-    responses = @@responses.select{|r| r.good_for? question}
+    responses = @responses.select{|r| r.good_for? question}
     if responses.length > 0
       responses.sample.get_answers.sample
     else
-      "Go on."
+      @@dummies.sample
     end
   end
 
