@@ -8,11 +8,11 @@ RSpec.describe 'Eliza answers' do
 
   describe 'Can retrieve answers' do
     it 'returns the single response when there is one' do
-      expect(Response.get_answer 'foo').to eq 'foo response'
+      expect(Response.get_answer 'foolish').to eq 'foo response'
     end
 
     it 'returns one of the answers when there are two' do
-      expect(['bar1', 'bar2']).to include Response.get_answer('bar')
+      expect(['bar1', 'bar2']).to include Response.get_answer('barfly')
     end
 
     it 'returns a dummy response when there is no match' do
