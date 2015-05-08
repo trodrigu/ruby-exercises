@@ -6,21 +6,20 @@ class Response
     @question = question.map{|q| q.downcase}
     @answers = answers
   end
-  
+
   def self.add_response question, *answers
     @@responses << new(question, answers)
   end
 
-  def self.add_dummies dummies
+  def self.add_dummies *dummies
     @@dummies += dummies
-    puts @@dummies
   end
 
   def self.get_answer question
     responses = @@responses.select{|r| r.good_for? question}
     if responses.length > 0
-      # responses.sample.get_answers.sample
-      get_answers
+      responses.sample.get_answers.sample
+      # get_answers
     else
       @@dummies
     end
@@ -28,6 +27,7 @@ class Response
 
 
   def good_for? question
+    puts question.class
     @question.any?{|q| question.downcase.include? q}
   end
 

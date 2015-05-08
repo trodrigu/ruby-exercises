@@ -1,27 +1,12 @@
 require_relative 'lib/eliza_questions'
-# require 'rack/lobster'
+require 'rack/lobster'
 require 'rack'
-# def create_html
-#   return "<form action='POST'><input class='text name='user_input'></input><br><button type='submit'>Ok</button>"
-# end
-#
-# def handled_response response_hash
-#   @value = response_hash[:user_input] unless response_hash.nil?
-#   app_response @value
-# end
-#
-# def app_response value
-#   puts Response.get_answer value
-# end
-#
-# puts @user_input
-
 # app = Proc.new do |env|
 #   req = Rack::Request.new env
 #   puts Response.get_answer req.params['user_input']
-#   ['200', {'Content-Type' => 'text/html'}, ['<form><input name=\'user_input\'><button type=\'submit\'>Click This</button></from>']  ]
+#   ['200', {'Content-Type' => 'text/html'}, ['<form><input name=\'user_input\'><button type=\'submit\'>Click This</button></form>']  ]
 # end
-#
+
 # Rack::Handler::WEBrick.run app
 # LobsterString = Zlib::Inflate.inflate("eJx9kEEOwyAMBO99xd7MAcytUhPlJyj2
 # P6jy9i4k9EQyGAnBarEXeCBqSkntNXsi/ZCvC48zGQoZKikGrFMZvgS5ZHd+aGWVuWwhVF0
@@ -45,33 +30,39 @@ require 'rack'
 #   length = content.inject(0) { |a,e| a+e.size }.to_s
 #   [200, {'CONTENT_TYPE' => "text/html", 'CONTENT_LENGTH' => length}, content]
 # }
-
+#
+formatted_response = ''
 
 LambdaEliza = lambda { |env|
-# if env['QUERY_STRING'].include?('')
-#   puts "Can't do it on nothing"
-# else
-  # content += "<span>#{Response.get_answer env['QUERY_STRING']}</span>"
-# end
-  puts env['QUERY_STRING']
+req = Rack::Request.new env
+input = req.params['user_input']
+if input == 'clear'
+    formatted_response = ''
+    input = ''
+end
 
-# content = [
-#             "<title>Eliza doesn't know</title>",
-#             "<pre>What does Eliza think?</pre>",
-#             "<input type='text' name='user_input'>",
-#             "<button type='submit'>Click me</button>"
-#             ]
-#
-content = ['<form><input name=\'user_input\'><button type=\'submit\'>Click This</button></form>']
+response = Response.get_answer input unless input == nil || input == '' || input == 'clear'
+formatted_response += "<br>#{input}<br><span>#{response}</span>"
+content = [
+            "<html><body><form action='/eliza/POST'>",
+            "<title>Eliza doesn't know</title>",
+            "<pre>What does Eliza think?</pre>",
+            "<input type='text' name='user_input'>",
+            "<button type='submit'>Click me</button>",
+            "</form></body></html>"
+            ]
 
-            length = content.inject(0) { |a,e| a+e.size }.to_s
-            [200, {'CONTENT_TYPE' => "text/html", 'CONTENT_LENGTH' => length}, content]
+content.insert(5, formatted_response)
+
+            [200, {'CONTENT_TYPE' => "text/html"}, content]
 
 }
 app = Rack::Builder.app do
   use Rack::CommonLogger
-  run lambda { |env| [200, {'Content-Type' => 'text/plain'}, ['OK']] }
-  # run LambdaEliza
+  # run LambdaLobster
+  map "/eliza" do
+    run LambdaEliza
+  end
 end
 
 Rack::Handler::WEBrick.run app
